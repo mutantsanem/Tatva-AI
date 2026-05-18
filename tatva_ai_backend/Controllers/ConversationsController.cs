@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tatva_ai_backend.Models;
 using tatva_ai_backend.Services;
 
 namespace tatva_ai_backend.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")] 
 public class ConversationsController(ConversationService conversations, GroqService groq) : ControllerBase
@@ -33,7 +35,7 @@ public class ConversationsController(ConversationService conversations, GroqServ
     }
 
     [HttpPost("{id}/messages")]
-    public async Task<IActionResult> SendMessage(string id, [FromBody] SendMessageRequest req  uest)
+    public async Task<IActionResult> SendMessage(string id, [FromBody] SendMessageRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Content))
             return BadRequest("Content cannot be empty.");

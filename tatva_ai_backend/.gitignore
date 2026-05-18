@@ -12,7 +12,7 @@ appsettings.*.json
 .vs/
 
 # Build artifacts
-obj/
+.obj/
 bin/
 
 # Logs

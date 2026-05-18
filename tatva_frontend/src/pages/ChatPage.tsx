@@ -4,7 +4,7 @@ import { Sidebar } from '../components/organisms/Sidebar';
 import { ChatWindow } from '../components/organisms/ChatWindow';
 import { api, type Conversation } from '../services/api';
 
-export const ChatPage = () => {
+export const ChatPage = ({ userName, onLogout }: { userName: string; onLogout: () => void }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -54,6 +54,8 @@ export const ChatPage = () => {
           activeId={activeId ?? ''}
           onSelect={setActiveId}
           onNewChat={handleNewChat}
+          userName={userName}
+          onLogout={onLogout}
         />
       }
       main={

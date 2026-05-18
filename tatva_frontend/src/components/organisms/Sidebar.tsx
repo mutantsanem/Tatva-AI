@@ -8,9 +8,11 @@ interface SidebarProps {
   activeId: string;
   onSelect: (id: string) => void;
   onNewChat: () => void;
+  userName: string;
+  onLogout: () => void;
 }
 
-export const Sidebar = ({ conversations, activeId, onSelect, onNewChat }: SidebarProps) => (
+export const Sidebar = ({ conversations, activeId, onSelect, onNewChat, userName, onLogout }: SidebarProps) => (
   <aside className="w-64 h-full bg-[#202123] flex flex-col shrink-0">
     <div className="p-3">
       <Button variant="ghost" onClick={onNewChat} className="w-full justify-between border border-white/20">
@@ -27,9 +29,14 @@ export const Sidebar = ({ conversations, activeId, onSelect, onNewChat }: Sideba
     </nav>
 
     <div className="p-3 border-t border-white/10">
-      <div className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 cursor-pointer transition-colors">
-        <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-white text-xs font-bold">U</div>
-        <span className="text-sm text-gray-300">User</span>
+      <div className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-white text-xs font-bold">
+            {userName.charAt(0).toUpperCase()}
+          </div>
+          <span className="text-sm text-gray-300 truncate max-w-[100px]">{userName}</span>
+        </div>
+        <button onClick={onLogout} className="text-xs text-gray-500 hover:text-red-400 transition-colors cursor-pointer">Logout</button>
       </div>
     </div>
   </aside>
