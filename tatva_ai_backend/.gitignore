@@ -11,5 +11,9 @@ appsettings.*.json
 *.suo
 .vs/
 
+# Build artifacts
+obj/
+bin/
+
 # Logs
 *.log
