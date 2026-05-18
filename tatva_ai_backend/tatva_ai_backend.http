@@ -1,0 +1,6 @@
+@tatva_ai_backend_HostAddress = http://localhost:5262
+
+GET {{tatva_ai_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
