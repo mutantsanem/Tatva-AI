@@ -1,0 +1,15 @@
+# Build output
+bin/
+obj/
+
+# Secrets - never commit these
+appsettings.json
+appsettings.*.json
+
+# User-specific files
+*.user
+*.suo
+.vs/
+
+# Logs
+*.log
