@@ -1,61 +1,73 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChatLayout } from '../components/templates/ChatLayout';
 import { Sidebar } from '../components/organisms/Sidebar';
 import { ChatWindow } from '../components/organisms/ChatWindow';
-import { conversations as initialData, type Conversation, type Message } from '../data/conversations';
-
-let msgCounter = 100;
+import { api, type Conversation } from '../services/api';
 
 export const ChatPage = () => {
-  const [conversations, setConversations] = useState<Conversation[]>(initialData);
-  const [activeId, setActiveId] = useState(initialData[0].id);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const activeConversation = conversations.find((c) => c.id === activeId)!;
+  useEffect(() => {
+    api.getAll().then((data) => {
+      setConversations(data);
+      if (data.length > 0) setActiveId(data[0].id);
+      setLoading(false);
+    });
+  }, []);
 
-  const handleNewChat = () => {
-    const id = String(Date.now());
-    const newChat: Conversation = { id, title: 'New Chat', messages: [] };
-    setConversations((prev) => [newChat, ...prev]);
-    setActiveId(id);
+  const activeConversation = conversations.find((c) => c.id === activeId) ?? null;
+
+  const handleNewChat = async () => {
+    const created = await api.create();
+    setConversations((prev) => [created, ...prev]);
+    setActiveId(created.id);
   };
 
-  const handleSend = (text: string) => {
-    const userMsg: Message = { id: `m${++msgCounter}`, role: 'user', content: text };
-    const botMsg: Message = {
-      id: `m${++msgCounter}`,
-      role: 'assistant',
-      content: 'This is a dummy response. Replace me with a real API call later!',
-    };
-
+  const handleSend = async (text: string) => {
+    if (!activeId) return;
+    const { userMessage, botReply } = await api.sendMessage(activeId, text);
     setConversations((prev) =>
       prev.map((c) => {
         if (c.id !== activeId) return c;
-        const isNew = c.messages.length === 0;
-        return {
-          ...c,
-          title: isNew ? text.slice(0, 40) : c.title,
-          messages: [...c.messages, userMsg, botMsg],
-        };
+        const messages = [...c.messages, userMessage, botReply];
+        const title = c.messages.length === 0 ? text.slice(0, 40) : c.title;
+        return { ...c, title, messages };
       })
     );
   };
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#343541] text-gray-400 text-sm">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <ChatLayout
       sidebar={
         <Sidebar
           conversations={conversations}
-          activeId={activeId}
+          activeId={activeId ?? ''}
           onSelect={setActiveId}
           onNewChat={handleNewChat}
         />
       }
       main={
-        <ChatWindow
-          title={activeConversation.title}
-          messages={activeConversation.messages}
-          onSend={handleSend}
-        />
+        activeConversation ? (
+          <ChatWindow
+            title={activeConversation.title}
+            messages={activeConversation.messages}
+            onSend={handleSend}
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-gray-500 text-sm">
+            <p>Create a new chat to get started</p>
+          </div>
+        )
       }
     />
   );

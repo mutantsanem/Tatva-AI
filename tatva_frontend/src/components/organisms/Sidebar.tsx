@@ -1,7 +1,7 @@
 import { Button } from '../atoms/Button';
 import { PlusIcon } from '../atoms/Icon';
 import { ChatItem } from '../molecules/ChatItem';
-import type { Conversation } from '../../data/conversations';
+import type { Conversation } from '../../services/api';
 
 interface SidebarProps {
   conversations: Conversation[];

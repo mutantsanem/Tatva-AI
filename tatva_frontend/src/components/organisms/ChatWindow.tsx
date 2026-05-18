@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { MessageBubble } from '../molecules/MessageBubble';
 import { ChatInput } from '../molecules/ChatInput';
-import type { Message } from '../../data/conversations';
+import type { Message } from '../../services/api';
 
 interface ChatWindowProps {
   title: string;

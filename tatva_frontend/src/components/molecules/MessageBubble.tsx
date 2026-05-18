@@ -1,5 +1,5 @@
 import { Avatar } from '../atoms/Avatar';
-import type { Message } from '../../data/conversations';
+import type { Message } from '../../services/api';
 
 interface MessageBubbleProps {
   message: Message;
