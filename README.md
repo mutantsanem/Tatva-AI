@@ -1,4 +1,6 @@
 <img width="1346" height="761" alt="image" src="https://github.com/user-attachments/assets/9b03c618-3118-4250-bc09-d75bcac44669" />
+<img width="1352" height="693" alt="image" src="https://github.com/user-attachments/assets/3d2e176c-fa0b-4a80-89fb-1c5ce476175d" />
+
 
 # Tatva AI
 
