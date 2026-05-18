@@ -1,12 +1,8 @@
-
+import './index.css';
+import { ChatPage } from './pages/ChatPage';
 
 function App() {
-
-  return (
-    <>
-    <h1>Hello world</h1>
-    </>
-  )
+  return <ChatPage />;
 }
 
-export default App
+export default App;
